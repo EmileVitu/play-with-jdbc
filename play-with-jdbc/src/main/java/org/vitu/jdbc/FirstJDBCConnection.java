@@ -27,5 +27,14 @@ public class FirstJDBCConnection {
 			long count = resultSet.getLong(1);
 			System.out.println("Count = " + count);
 		}
+		
+		String sql2 = "select name from user";
+		
+		resultSet = statement.executeQuery(sql2);
+		
+		while(resultSet.next()) {
+			String name = resultSet.getString("name");
+			System.out.println("Name = " + name);
+		}
 	}
 }
