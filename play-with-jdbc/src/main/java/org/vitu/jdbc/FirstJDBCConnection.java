@@ -19,22 +19,32 @@ public class FirstJDBCConnection {
 		System.out.println("Connection = " + connection);
 		
 		String sql = "select count(*) count from user";
-		
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(sql);
 		
+		System.out.println("\nSQL = " + sql);
 		while(resultSet.next()) {
 			long count = resultSet.getLong(1);
 			System.out.println("Count = " + count);
 		}
 		
 		String sql2 = "select name from user";
-		
 		resultSet = statement.executeQuery(sql2);
 		
+		System.out.println("\nSQL = " + sql2);
 		while(resultSet.next()) {
 			String name = resultSet.getString("name");
 			System.out.println("Name = " + name);
+		}
+		
+		String sql3 = "select id, name from user";
+		resultSet = statement.executeQuery(sql3);
+		
+		System.out.println("\nSQL = " + sql3);
+		while(resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String name = resultSet.getString("name");
+			System.out.println("Id, Name = " + id + ", " + name);
 		}
 	}
 }
