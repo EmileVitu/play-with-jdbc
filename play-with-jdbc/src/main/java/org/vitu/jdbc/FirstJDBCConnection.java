@@ -2,7 +2,9 @@ package org.vitu.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class FirstJDBCConnection {
 
@@ -16,6 +18,16 @@ public class FirstJDBCConnection {
 		
 		System.out.println("Connection = " + connection);
 		
+		String sql = "select count(*) count from user";
+		
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+		
+		while(resultSet.next()) {
+			long count = resultSet.getLong(1);
+			System.out.println("Count = " + count);
+		}
 	}
-	
 }
+// GitHub token :
+// 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
