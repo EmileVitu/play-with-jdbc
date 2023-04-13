@@ -29,5 +29,3 @@ public class FirstJDBCConnection {
 		}
 	}
 }
-// GitHub token :
-// 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
