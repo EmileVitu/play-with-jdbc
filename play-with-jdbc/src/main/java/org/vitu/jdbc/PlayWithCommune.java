@@ -42,7 +42,10 @@ public class PlayWithCommune {
 				
 				Commune commune = new Commune(codePostal, nom);
 				
-				communes.put(codePostal, commune);
+				Commune previousCommune = communes.put(codePostal, commune);
+				if (previousCommune != null) {
+					System.out.println("Doublon = " + previousCommune);
+				}
 				
 				line = reader.readLine();
 			
