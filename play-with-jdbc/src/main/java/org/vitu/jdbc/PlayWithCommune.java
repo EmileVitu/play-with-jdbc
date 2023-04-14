@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +16,18 @@ import org.vitu.jdbc.model.Commune;
 
 public class PlayWithCommune {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		
 		Map<String, Commune> communes = new HashMap<>();
+		
+		Connection connection = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/db_jdbc",
+				"jdbc-user",
+				"user"
+				);
+		
+		String sql = "insert into commune(code_postal, nom) values (?, ?)";
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		
 		Path path = Path.of("data/maires-25-04-2014.csv");
 		try(BufferedReader reader = Files.newBufferedReader(path);) {
@@ -45,12 +59,19 @@ public class PlayWithCommune {
 				Commune previousCommune = communes.put(codePostal, commune);
 				if (previousCommune != null) {
 					System.out.println("Doublon = " + previousCommune);
+				} else {
+					preparedStatement.setString(1, codePostal);
+					preparedStatement.setString(2, nom);
+					preparedStatement.addBatch();
 				}
-				
+								
 				line = reader.readLine();
 			
 			}
-		
+			
+			int[] counts = preparedStatement.executeBatch();
+			int count = Arrays.stream(counts).sum();
+			System.out.println("Nombre de communes créées = " + count);
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
