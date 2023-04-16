@@ -68,8 +68,10 @@ public class PlayWithCommune {
 				line = reader.readLine();
 			
 			}
-			
+			System.out.println("Executing barch");
 			int[] counts = preparedStatement.executeBatch();
+			System.out.println("Done batch");
+			
 			int count = Arrays.stream(counts).sum();
 			System.out.println("Nombre de communes créées = " + count);
 		} catch(IOException e) {
